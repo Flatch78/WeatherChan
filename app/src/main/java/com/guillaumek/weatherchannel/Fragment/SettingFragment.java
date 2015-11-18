@@ -9,17 +9,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.guillaumek.weatherchannel.Activity.MainActivity;
+import com.guillaumek.weatherchannel.Fragment.Adapter.SpinnerCustomCityAdapter;
+import com.guillaumek.weatherchannel.Fragment.Dialog.AddCityDialogFragment;
+import com.guillaumek.weatherchannel.Global.AppWeatherChan;
 import com.guillaumek.weatherchannel.R;
 import com.guillaumek.weatherchannel.Tools.MessageTool;
+import com.guillaumek.weatherchannel.Tools.SQLiteDB.SQLiteWeatherChan;
+
+import java.util.ArrayList;
 
 
 public class SettingFragment extends Fragment {
 
     private static final String TAG = SettingFragment.class.getName();
     private MessageTool msg = new MessageTool(TAG);
+
+    MainActivity mMainActivity;
+
+    private SQLiteWeatherChan mSQLiteWeatherChan;
+
+    SettingCallback mSettingCallback = new SettingCallback();
+
+    Spinner mSpinnerCities;
 
     // SharedPreferences
     SharedPreferences mSharedPreferences;
@@ -39,35 +55,37 @@ public class SettingFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static SettingFragment newInstance() {
+    public static SettingFragment newInstance(MainActivity mainActivity) {
         SettingFragment fragment = new SettingFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
+        fragment.setMainActivity(mainActivity);
         return fragment;
+    }
+
+    public void setMainActivity(MainActivity mainActivity) {
+        mMainActivity = mainActivity;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSharedPreferences = getActivity().getSharedPreferences(SETTING_PREFS, Context.MODE_PRIVATE);
-//        if (mSharedPreferences.getString(checkKey, null) == null) {
-//            SharedPreferences.Editor editor = mSharedPreferences.edit();
-//            editor.putBoolean(GraphicKey, true);
-//            editor.putBoolean(HumidityKey, true);
-//            editor.putBoolean(WindKey, true);
-//            editor.putBoolean(PressureKey, true);
-//            editor.putBoolean(CloudsKey, true);
-//            editor.putBoolean(UVKey, true);
-//            editor.putInt(nbDaysKey, 1);
-//            editor.putString(checkKey, checkKey);
-//            editor.commit();
-//        }
+        mSQLiteWeatherChan = ((AppWeatherChan)mMainActivity.getApplication()).getSQLiteWeatherChan();
+        mSharedPreferences = mMainActivity.getSharedPreferences(SETTING_PREFS, Context.MODE_PRIVATE);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_setting, container, false);
+        mSpinnerCities = (Spinner) view.findViewById(R.id.spinnerCities);
+        customerSpinner();
+        view.findViewById(R.id.buttonAddCity).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddCityDialogFragment.newInstance(mMainActivity, mSettingCallback).show(getFragmentManager(), "AddCityDialogFragment");
+            }
+        });
         Switch switchGraphic = (Switch) view.findViewById(R.id.switchGraphic);
         switchGraphic.setChecked(mSharedPreferences.getBoolean(GraphicKey, true));
         switchGraphic.setOnCheckedChangeListener(
@@ -140,6 +158,18 @@ public class SettingFragment extends Fragment {
         return view;
     }
 
+    public void updateAdapterSpinnerCity() {
+//        if (mSpinnerCustomCityAdapter != null) {
+//            mSpinnerCustomCityAdapter.setListCityInObj(mSQLiteWeatherChan.getAllCities());
+//            mSpinnerCities.setAdapter(mSpinnerCustomCityAdapter);
+
+        if (mSpinnerCities != null) {
+            customerSpinner();
+        }
+//            adapter.notifyDataSetChanged()
+//        }
+    }
+
     private void setViewSeekbar(View view) {
         final TextView textViewNbDays = (TextView) view.findViewById(R.id.textViewNbDays);
         SeekBar seekBarNbDays = (SeekBar) view.findViewById(R.id.seekBarNbDays);
@@ -181,5 +211,23 @@ public class SettingFragment extends Fragment {
         super.onDetach();
     }
 
+    public void customerSpinner() {
+
+        SpinnerCustomCityAdapter mSpinnerCustomCityAdapter = new SpinnerCustomCityAdapter(mMainActivity, mSettingCallback,
+                R.layout.adapter_spinner_custom_city, (ArrayList)mSQLiteWeatherChan.getAllCities(), getResources());
+
+        mSpinnerCities.setAdapter(mSpinnerCustomCityAdapter);
+    }
+
+
+    public interface ISettingCallback {
+        void cbUpdateAdapterSpinnerCity();
+    }
+
+    class SettingCallback implements ISettingCallback {
+        public void cbUpdateAdapterSpinnerCity() {
+            updateAdapterSpinnerCity();
+        }
+    }
 
 }

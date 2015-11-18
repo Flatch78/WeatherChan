@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -16,13 +17,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.guillaumek.weatherchannel.Activity.MainActivity;
+import com.guillaumek.weatherchannel.Global.AppWeatherChan;
 import com.guillaumek.weatherchannel.Network.CurrentWeather;
 import com.guillaumek.weatherchannel.Network.ForecastWeather;
 import com.guillaumek.weatherchannel.Network.NetworkAPIWeather;
+import com.guillaumek.weatherchannel.Network.Object.CityInfoObject;
 import com.guillaumek.weatherchannel.R;
+import com.guillaumek.weatherchannel.Tools.GraphEnum;
 import com.guillaumek.weatherchannel.Tools.MessageTool;
+import com.guillaumek.weatherchannel.Tools.SQLiteDB.SQLiteWeatherChan;
 import com.guillaumek.weatherchannel.Tools.WeatherGPSTracker;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -36,45 +42,62 @@ public class MainFragment extends Fragment {
     private MessageTool msg = new MessageTool(TAG);
 
     private View mView;
-    private Context mContext;
+    private MainActivity mActivity;
+    private int mNBRequest;
 
-    LinearLayout mLinearLayoutBack;
+    private LinearLayout mLinearLayoutBack;
+    private ProgressBar mProgressBar;
 
     // SharedPreferences
-    SharedPreferences mSharedPreferences;
-    public static final String SETTING_PREFS = "settingPrefs" ;
+    private SharedPreferences mSharedPreferences;
+    public static final String SETTING_PREFS = "settingPrefs";
     public static final String GraphicKey = "graphicKey";
+    public static final String HumidityKey = "humiKey";
+    public static final String WindKey = "windKey";
+    public static final String PressureKey = "pressKey";
+    public static final String CloudsKey = "cloudsKey";
+    public static final String UVKey = "uvKey";
 
 
     private ScreenSlidePagerCityAdapter mScreenSlidePagerCityAdapter;
     private ScreenSlidePagerGraphAdapter mScreenSlidePagerGraphAdapter;
 
+    private ViewPager mViewPagerCities;
+    private ViewPager mViewPagerChart;
+
     private WeatherGPSTracker mWeatherGPSTracker;
 
     private List<CurrentWeather> mListCurrentWeather;
+    private List<GraphEnum> mListGraphEnum;
     private ForecastWeather mForecastWeather;
 
+    private SQLiteWeatherChan mSQLiteWeatherChan;
+
+
     public MainFragment() {
+        mNBRequest = 0;
+        mListGraphEnum = new ArrayList<>();
     }
 
-    public static MainFragment newInstance(Context context) {
+    public static MainFragment newInstance(MainActivity context) {
         MainFragment fragment = new MainFragment();
         fragment.setContext(context);
         return fragment;
     }
 
-    public void setContext(Context context) {
-        mContext = context;
+    public void setContext(MainActivity context) {
+        mActivity = context;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        mWeatherGPSTracker = new WeatherGPSTracker(mContext);
+        mWeatherGPSTracker = new WeatherGPSTracker(mActivity);
         mListCurrentWeather = new ArrayList<>();
         mForecastWeather = null;
         mSharedPreferences = getActivity().getSharedPreferences(SETTING_PREFS, Context.MODE_PRIVATE);
+        mSQLiteWeatherChan = ((AppWeatherChan) mActivity.getApplication()).getSQLiteWeatherChan();
         setLocation();
     }
 
@@ -82,27 +105,49 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        fillInListGraph();
+
         mView = inflater.inflate(R.layout.fragment_main, container, false);
 
+        mProgressBar = (ProgressBar) mView.findViewById(R.id.progressBarLoading);
 
         mLinearLayoutBack = (LinearLayout) mView.findViewById(R.id.layoutBackground);
 
+        mViewPagerCities = (ViewPager) mView.findViewById(R.id.pagerCities);
+        mViewPagerCities.setVisibility(View.GONE);
+        mScreenSlidePagerCityAdapter = new ScreenSlidePagerCityAdapter((mActivity).getSupportFragmentManager());
+        mViewPagerCities.setAdapter(mScreenSlidePagerCityAdapter);
+        mViewPagerCities.addOnPageChangeListener(new PagerCityAdapterOnPageChangeListener());
 
-        ViewPager viewPagerCities = (ViewPager) mView.findViewById(R.id.pagerCities);
-        mScreenSlidePagerCityAdapter = new ScreenSlidePagerCityAdapter(((MainActivity)mContext).getSupportFragmentManager());
-        viewPagerCities.setAdapter(mScreenSlidePagerCityAdapter);
-
-        ViewPager viewPagerChart = (ViewPager) mView.findViewById(R.id.contentGraph);
+        mViewPagerChart = (ViewPager) mView.findViewById(R.id.pagerGraph);
+        mViewPagerChart.setVisibility(View.GONE);
         if (mSharedPreferences.getBoolean(GraphicKey, true)) {
-            viewPagerChart.setVisibility(View.VISIBLE);
-            mScreenSlidePagerGraphAdapter = new ScreenSlidePagerGraphAdapter(((MainActivity) mContext).getSupportFragmentManager());
-            viewPagerChart.setAdapter(mScreenSlidePagerGraphAdapter);
+            mViewPagerChart.setVisibility(View.VISIBLE);
+            mScreenSlidePagerGraphAdapter = new ScreenSlidePagerGraphAdapter((mActivity).getSupportFragmentManager());
+            mViewPagerChart.setAdapter(mScreenSlidePagerGraphAdapter);
         } else {
-            viewPagerChart.setVisibility(View.GONE);
+            mViewPagerChart.setVisibility(View.GONE);
         }
         doRequest();
 
         return mView;
+    }
+
+    public void fillInListGraph() {
+        mListGraphEnum.clear();
+        mListGraphEnum.add(GraphEnum.TEMPERATURE);
+        if (mSharedPreferences.getBoolean(HumidityKey, true)) {
+            mListGraphEnum.add(GraphEnum.HUMIDITY);
+        }
+        if (mSharedPreferences.getBoolean(WindKey, true)) {
+            mListGraphEnum.add(GraphEnum.WIND);
+        }
+        if (mSharedPreferences.getBoolean(CloudsKey, true)) {
+            mListGraphEnum.add(GraphEnum.CLOUDS);
+        }
+        if (mSharedPreferences.getBoolean(PressureKey, true)) {
+            mListGraphEnum.add(GraphEnum.PRESSURE);
+        }
     }
 
     @Override
@@ -132,17 +177,36 @@ public class MainFragment extends Fragment {
     }
 
     private void doRequest() {
-        String pathURI = NetworkAPIWeather.getURLWeatherCoord(mWeatherGPSTracker.getLatitude(), mWeatherGPSTracker.getLongitude());
-        requestWeather(pathURI);
-        pathURI = NetworkAPIWeather.getURLForecastCoord(mWeatherGPSTracker.getLatitude(), mWeatherGPSTracker.getLongitude());
-        requestForecast(pathURI);
+        mViewPagerCities.setVisibility(View.GONE);
+        mViewPagerChart.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.VISIBLE);
+        if (mNBRequest <= 0) {
+            ++mNBRequest;
+            mListCurrentWeather.clear();
+            mScreenSlidePagerCityAdapter.notifyDataSetChanged();
+            String pathURI = NetworkAPIWeather.getURLWeatherCoord(mWeatherGPSTracker.getLatitude(), mWeatherGPSTracker.getLongitude());
+            requestWeather(pathURI);
+            pathURI = NetworkAPIWeather.getURLForecastCoord(mWeatherGPSTracker.getLatitude(), mWeatherGPSTracker.getLongitude());
+            requestForecast(pathURI);
+            Handler handler = new Handler();
+            if (mSQLiteWeatherChan != null) {
+                List<CityInfoObject> listCityInfObj = mSQLiteWeatherChan.getAllCities();
+                for (final CityInfoObject cityInfObj : listCityInfObj) {
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            String pathURIwe = NetworkAPIWeather.getURLWeatherCoord(cityInfObj.getLatitude(), cityInfObj.getLongitude());
+                            requestWeather(pathURIwe);
+                            ++mNBRequest;
+                        }
+                    }, 500);
+                }
+            }
+        }
     }
 
     private void requestWeather(final String pathURI) {
 
-        msg.MsgDebug("URL: " + pathURI);
-
-        Ion.with(mContext)
+        Ion.with(mActivity)
                 .load(pathURI)
                 .as(CurrentWeather.class)
                 .setCallback(new FutureCallback<CurrentWeather>() {
@@ -156,12 +220,20 @@ public class MainFragment extends Fragment {
                         } else {
                             msg.MsgDebug("Request: " + pathURI + " Done");
                             if (mListCurrentWeather != null) {
-                                mListCurrentWeather.add(result);
+                                mListCurrentWeather.add(mListCurrentWeather.size(), result);
                             }
                             if (mScreenSlidePagerCityAdapter != null) {
                                 mScreenSlidePagerCityAdapter.notifyDataSetChanged();
                             }
-                            setBackGroundImage(result.weather.get(0).icon);
+                            if (mListCurrentWeather.size() == 1) {
+                                setBackGroundImage(result.weather.get(0).icon);
+                            }
+                        }
+                        --mNBRequest;
+                        if (mNBRequest == 0) {
+                            mViewPagerCities.setVisibility(View.VISIBLE);
+                            mViewPagerChart.setVisibility(View.VISIBLE);
+                            mProgressBar.setVisibility(View.GONE);
                         }
                     }
 
@@ -170,8 +242,8 @@ public class MainFragment extends Fragment {
 
     private void setBackGroundImage(String icon) {
         String URLBackground = NetworkAPIWeather.getURLbyIconName(icon);
-        if (URLBackground != null && mContext != null) {
-            Ion.with(mContext)
+        if (URLBackground != null && mActivity != null) {
+            Ion.with(mActivity)
                     .load(URLBackground)
                     .asBitmap()
                     .setCallback(new FutureCallback<Bitmap>() {
@@ -193,9 +265,7 @@ public class MainFragment extends Fragment {
 
     private void requestForecast(final String pathURI) {
 
-        msg.MsgDebug("URL: " + pathURI);
-
-        Ion.with(mContext)
+        Ion.with(mActivity)
                 .load(pathURI)
                 .as(ForecastWeather.class)
                 .setCallback(new FutureCallback<ForecastWeather>() {
@@ -232,16 +302,17 @@ public class MainFragment extends Fragment {
         public ScreenSlidePagerCityAdapter(FragmentManager fm) {
             super(fm);
         }
+
         @Override
         public Fragment getItem(int position) {
             if (mListCurrentWeather != null && mListCurrentWeather.size() > position) {
-                return CityFragment.newInstance(mContext, mListCurrentWeather.get(position));
+                return CityFragment.newInstance(mActivity, mListCurrentWeather.get(position));
             }
-            return CityFragment.newInstance(mContext, null);
+            return CityFragment.newInstance(mActivity, null);
         }
 
         @Override
-        public int getItemPosition(Object object){
+        public int getItemPosition(Object object) {
             return POSITION_NONE;
         }
 
@@ -249,29 +320,48 @@ public class MainFragment extends Fragment {
         public int getCount() {
             return mListCurrentWeather.size() == 0 ? 1 : mListCurrentWeather.size(); // Because fail when they are 0 item
         }
-
     }
 
     private class ScreenSlidePagerGraphAdapter extends FragmentStatePagerAdapter {
         public ScreenSlidePagerGraphAdapter(FragmentManager fm) {
             super(fm);
         }
+
         @Override
         public Fragment getItem(int position) {
             if (mForecastWeather != null) {
-                return ChartFragment.newInstance(mContext, mForecastWeather, position);
+                return ChartFragment.newInstance(mActivity, mForecastWeather, mListGraphEnum.get(position));
             }
-            return ChartFragment.newInstance(mContext, null, position);
+            return ChartFragment.newInstance(mActivity, null, GraphEnum.NOTHING);
         }
 
         @Override
-        public int getItemPosition(Object object){
+        public int getItemPosition(Object object) {
             return POSITION_NONE;
         }
 
         @Override
         public int getCount() {
-            return 5;
+            return mListGraphEnum.size();
+        }
+    }
+
+    public class PagerCityAdapterOnPageChangeListener extends ViewPager.SimpleOnPageChangeListener {
+
+        private int currentPage;
+
+        @Override
+        public void onPageSelected(int position) {
+            if (mListCurrentWeather != null && mListCurrentWeather.size() > position) {
+                setBackGroundImage(mListCurrentWeather.get(position).weather.get(0).icon);
+                String pathURI = NetworkAPIWeather.getURLForecastCoord(mListCurrentWeather.get(position).coord.lat, mListCurrentWeather.get(position).coord.lon);
+                requestForecast(pathURI);
+            }
+            currentPage = position;
+        }
+
+        public final int getCurrentPage() {
+            return currentPage;
         }
     }
 

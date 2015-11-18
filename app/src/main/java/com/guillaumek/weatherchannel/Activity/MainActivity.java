@@ -8,12 +8,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.guillaumek.weatherchannel.Fragment.InformationFragment;
 import com.guillaumek.weatherchannel.Fragment.MainFragment;
 import com.guillaumek.weatherchannel.Fragment.SettingFragment;
+import com.guillaumek.weatherchannel.Global.AppWeatherChan;
+import com.guillaumek.weatherchannel.Network.Object.CityInfoObject;
 import com.guillaumek.weatherchannel.R;
+import com.guillaumek.weatherchannel.Tools.SQLiteDB.SQLiteWeatherChan;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -21,9 +25,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private SettingFragment mSettingFragment;
     private InformationFragment mInformationFragment;
 
+    private SQLiteWeatherChan mSQLiteWeatherChan;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        {
+            if (((AppWeatherChan) getApplication()).getSQLiteWeatherChan() == null) {
+                mSQLiteWeatherChan = new SQLiteWeatherChan(this);
+                if (mSQLiteWeatherChan.getCityCount() == 0) {
+                    CityInfoObject cityInfoObject = new CityInfoObject();
+                    cityInfoObject.setName("Paris");
+                    cityInfoObject.setLatitude(48.853);
+                    cityInfoObject.setLongitude(2.35);
+                    cityInfoObject.setFavorite(1);
+                    mSQLiteWeatherChan.addCity(cityInfoObject);
+                    Log.e("PARIS", "paris added");
+                }
+                ((AppWeatherChan) getApplication()).setSQLiteWeatherChan(mSQLiteWeatherChan);
+            }
+        }
+
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -32,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         {
             mMainFragment = MainFragment.newInstance(this);
-            mSettingFragment = SettingFragment.newInstance();
+            mSettingFragment = SettingFragment.newInstance(this);
             mInformationFragment = InformationFragment.newInstance();
         }
 

@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 import com.guillaumek.weatherchannel.Network.ForecastWeather;
 import com.guillaumek.weatherchannel.R;
 import com.guillaumek.weatherchannel.Tools.ContentChart;
+import com.guillaumek.weatherchannel.Tools.GraphEnum;
 import com.guillaumek.weatherchannel.Tools.MessageTool;
 import com.guillaumek.weatherchannel.Tools.Tools;
 import com.guillaumek.weatherchannel.Tools.WeatherAChartEngine;
@@ -36,14 +37,14 @@ public class ChartFragment extends Fragment {
 
     private Context mContext;
     private ForecastWeather mForecastWeather;
-    private int mType;
+    private GraphEnum mType;
     private int mNumberDays;
 
     public ChartFragment() {
         // Required empty public constructor
     }
 
-    public static ChartFragment newInstance(Context context, ForecastWeather forecastWeather, int type) {
+    public static ChartFragment newInstance(Context context, ForecastWeather forecastWeather, GraphEnum type) {
         ChartFragment fragment = new ChartFragment();
         fragment.setForecastWeather(forecastWeather);
         fragment.setType(type);
@@ -62,7 +63,7 @@ public class ChartFragment extends Fragment {
         mContext = context;
     }
 
-    public void setType(int type) {
+    public void setType(GraphEnum type) {
         mType = type;
     }
 
@@ -79,38 +80,40 @@ public class ChartFragment extends Fragment {
         if (mForecastWeather != null) {
             FrameLayout frameLayoutChart = (FrameLayout) view.findViewById(R.id.contentGraph);
 
-            WeatherAChartEngine weatherAChartEngine;
-            List<Double> listElements;
-            ContentChart contentChart;
-            if (mType == 0) {
+            WeatherAChartEngine weatherAChartEngine = null;
+            List<Double> listElements = null;
+            ContentChart contentChart = null;
+            if (mType == GraphEnum.TEMPERATURE) {
                 contentChart = new ContentChart(0, 30);
                 listElements = getListTemperature(mForecastWeather.list, contentChart);
                 weatherAChartEngine = new WeatherAChartEngine(mContext, "Temperature graphic", "Hours", "Temperature");
                 weatherAChartEngine.setLineColor(getResources().getColor(R.color.FireBrick));
-            } else if (mType == 1) {
+            } else if (mType == GraphEnum.HUMIDITY) {
                 contentChart = new ContentChart(50, 110);
                 listElements = getListHumidity(mForecastWeather.list, contentChart);
                 weatherAChartEngine = new WeatherAChartEngine(mContext, "Humidity graphic", "Hours", "Percentage");
                 weatherAChartEngine.setLineColor(getResources().getColor(R.color.colorPrimaryDark));
-            } else if (mType == 2) {
+            } else if (mType == GraphEnum.PRESSURE) {
                 contentChart = new ContentChart(940, 1050);
                 listElements = getListPressure(mForecastWeather.list, contentChart);
                 weatherAChartEngine = new WeatherAChartEngine(mContext, "Pressure graphic", "Hours", "Percentage");
                 weatherAChartEngine.setLineColor(getResources().getColor(R.color.black));
-            } else if (mType == 3) {
+            } else if (mType == GraphEnum.WIND) {
                 contentChart = new ContentChart(0, 150);
                 listElements = getListWindSpeed(mForecastWeather.list, contentChart);
                 weatherAChartEngine = new WeatherAChartEngine(mContext, "Wind graphic", "Hours", "Speed km/h");
                 weatherAChartEngine.setLineColor(getResources().getColor(R.color.DimGray));
-            } else {
+            } else if (mType == GraphEnum.CLOUDS) {
                 contentChart = new ContentChart(0, 100);
                 listElements = getListcloud(mForecastWeather.list, contentChart);
                 weatherAChartEngine = new WeatherAChartEngine(mContext, "Cloud graphic", "Hours", "Percentage");
                 weatherAChartEngine.setLineColor(getResources().getColor(R.color.Ivory));
             }
-            GraphicalView graphicalView = weatherAChartEngine.getChart(listElements, contentChart);
-            if (graphicalView != null) {
-                frameLayoutChart.addView(graphicalView);
+            if (weatherAChartEngine != null) {
+                GraphicalView graphicalView = weatherAChartEngine.getChart(listElements, contentChart);
+                if (graphicalView != null) {
+                    frameLayoutChart.addView(graphicalView);
+                }
             }
         }
 

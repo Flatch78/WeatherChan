@@ -94,7 +94,7 @@ public class CityFragment extends Fragment {
                 view.findViewById(R.id.layoutHumidity).setVisibility(mSharedPreferences.getBoolean(HumidityKey, true) ? View.VISIBLE : View.GONE);
             }
             {
-                ((TextView) view.findViewById(R.id.textViewWind)).setText(String.format("%.2f m/s", mCurrentWeather.wind.speed));
+                ((TextView) view.findViewById(R.id.textViewWind)).setText(String.format("%.2f m/!s", mCurrentWeather.wind.speed));
                 view.findViewById(R.id.layoutWind).setVisibility(mSharedPreferences.getBoolean(WindKey, true) ? View.VISIBLE : View.GONE);
             }
             {

@@ -66,6 +66,15 @@
                 android:text="Description"
                 android:id="@+id/textViewDescription" />
 
+            <TextView
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Temperature"
+                android:textSize="65sp"
+                android:textColor="@color/WhiteSmoke"
+                android:id="@+id/textViewTemperature" />
+
             <LinearLayout
                 android:id="@+id/layoutHumidity"
                 android:gravity="center"
@@ -73,6 +82,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+<!--
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -80,10 +90,16 @@
                     android:textColor="@color/WhiteSmoke"
                     android:text="Humidity:"
                      />
+-->
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@mipmap/ic_humidity_white"
+                    />
 
                 <TextView
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
@@ -99,16 +115,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
+<!--
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/WhiteSmoke"
                     android:text="Wind:" />
+-->
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@mipmap/ic_wind_white"
+                    />
 
                 <TextView
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
@@ -118,47 +142,30 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/layoutPressure"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/WhiteSmoke"
-                    android:text="Pressure:" />
-
-                <TextView
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/WhiteSmoke"
-                    android:text="value"
-                    android:id="@+id/textViewPressure" />
-            </LinearLayout>
-
-            <LinearLayout
                 android:id="@+id/layoutClouds"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
+<!--
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/WhiteSmoke"
                     android:text="Clouds:" />
+-->
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@mipmap/ic_clouds_white"
+                    />
 
                 <TextView
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
@@ -168,22 +175,59 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layoutPressure"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@mipmap/ic_pressure_white"/>
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
+                    <!--android:textColor="@color/WhiteSmoke"-->
+                    <!--android:text="Pressure:" />-->
+
+                <TextView
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/WhiteSmoke"
+                    android:text="value"
+                    android:id="@+id/textViewPressure" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/layoutUV"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
+<!--
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/WhiteSmoke"
                     android:text="UV:" />
+-->
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@mipmap/ic_clouds_white"
+                    />
 
                 <TextView
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
@@ -197,15 +241,6 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/imageViewUV" />
             </LinearLayout>
-
-            <TextView
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Temperature"
-                android:textSize="60sp"
-                android:textColor="@color/WhiteSmoke"
-                android:id="@+id/textViewTemperature" />
 
             <TextView
                 android:gravity="bottom"

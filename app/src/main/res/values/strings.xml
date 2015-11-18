@@ -33,4 +33,7 @@
     <string name="row_red_recommend">Wear SPF 30+ sunscreen, a shirt,\nsunglasses, and a wide-brimmed hat.\nDo not stay in the sun for too long.</string>
     <string name="row_purple_recommend">Take all precautions: Wear SPF 30+ sunscreen,\na long-sleeved shirt and trousers, sunglasses,\nand a very broad hat.\nAvoid the sun within three hours of solar noon.</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

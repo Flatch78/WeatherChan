@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.guillaumek.weatherchannel.Network.CurrentWeather;
 import com.guillaumek.weatherchannel.Network.NetworkAPIWeather;
@@ -83,34 +82,53 @@ public class SQLiteWeatherChan extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-//        values.put(COL_ID, city.getId());
         values.put(COL_NAME, city.getName());
-//        values.put(COL_LAT, city.getLatitude());
-//        values.put(COL_LON, city.getLongitude());
-//        values.put(COL_COUNTRY, city.getCountry());
         values.put(COL_FAVORITE, city.getFavorite());
         values.put(COL_CREATED_AT, getDateTime());
-        city.setId((int) db.insert(TABLE_CITY, null, values));
 
-        Ion.with(mContext)
-                .load(NetworkAPIWeather.getURLWeatherNameCity(city.getName()))
-                .as(CurrentWeather.class)
-                .setCallback(new FutureCallback<CurrentWeather>() {
-                    @Override
-                    public void onCompleted(Exception e, CurrentWeather result) {
-                        if (e != null) {
-                            Log.e("Request", "error: " + e.getMessage());
-                        } else if (result == null) {
-                            Log.e("Request", "error: request fail");
-                        } else {
-                            city.setLatitude(result.coord.lat);
-                            city.setLongitude(result.coord.lon);
-                            city.setCountry(new Locale("en", result.sys.country).getDisplayCountry());
-                            updateCity(city);
+        if (city.getLatitude() == 0 && city.getLongitude() == 0) {
+            city.setId((int) db.insert(TABLE_CITY, null, values));
+            Ion.with(mContext)
+                    .load(NetworkAPIWeather.getURLWeatherNameCity(city.getName()))
+                    .as(CurrentWeather.class)
+                    .setCallback(new FutureCallback<CurrentWeather>() {
+                        @Override
+                        public void onCompleted(Exception e, CurrentWeather result) {
+                            if (e != null) {
+                                msg.MsgError("Request error: " + e.getMessage());
+                            } else if (result == null) {
+                                msg.MsgError("Request error: request fail");
+                            } else {
+                                city.setLatitude(result.coord.lat);
+                                city.setLongitude(result.coord.lon);
+                                city.setCountry(new Locale("en", result.sys.country).getDisplayCountry());
+                                updateCity(city);
+                            }
                         }
-                    }
 
-                });
+                    });
+        } else {
+            values.put(COL_LAT, city.getLatitude());
+            values.put(COL_LON, city.getLongitude());
+            city.setId((int) db.insert(TABLE_CITY, null, values));
+            Ion.with(mContext)
+                    .load(NetworkAPIWeather.getURLWeatherCoord(city.getLatitude(), city.getLongitude()))
+                    .as(CurrentWeather.class)
+                    .setCallback(new FutureCallback<CurrentWeather>() {
+                        @Override
+                        public void onCompleted(Exception e, CurrentWeather result) {
+                            if (e != null) {
+                                msg.MsgError("Request error: " + e.getMessage());
+                            } else if (result == null) {
+                                msg.MsgError("Request error: request fail");
+                            } else {
+                                city.setCountry(new Locale("en", result.sys.country).getDisplayCountry());
+                                updateCity(city);
+                            }
+                        }
+
+                    });
+        }
 
         return 0;
     }
@@ -121,8 +139,6 @@ public class SQLiteWeatherChan extends SQLiteOpenHelper {
         String selectQuery = "SELECT  * FROM "
                 + TABLE_CITY + " WHERE "
                 + COL_ID + " = " + id;
-
-        Log.e(TAG, selectQuery);
 
         Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -144,8 +160,6 @@ public class SQLiteWeatherChan extends SQLiteOpenHelper {
     public List<CityInfoObject> getAllCities() {
         List<CityInfoObject> listCityInfoObject = new ArrayList<CityInfoObject>();
         String selectQuery = "SELECT  * FROM " + TABLE_CITY;
-
-        Log.e(TAG, selectQuery);
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -174,8 +188,6 @@ public class SQLiteWeatherChan extends SQLiteOpenHelper {
         String selectQuery = "SELECT  * FROM " + TABLE_CITY
                 + " WHERE " + COL_COUNTRY + " = '" + country;
 
-        Log.e(TAG, selectQuery);
-
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -202,8 +214,6 @@ public class SQLiteWeatherChan extends SQLiteOpenHelper {
 
         String selectQuery = "SELECT  * FROM " + TABLE_CITY
                 + " WHERE " + COL_FAVORITE + " = '" + (isFavorite ? 1 : 0);
-
-        Log.e(TAG, selectQuery);
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -247,12 +257,12 @@ public class SQLiteWeatherChan extends SQLiteOpenHelper {
         values.put(COL_COUNTRY, cityInfoObject.getCountry());
         values.put(COL_FAVORITE, cityInfoObject.getFavorite());
 
-        return db.update(TABLE_CITY, values, COL_ID + " = ?", new String[] { String.valueOf(cityInfoObject.getId()) });
+        return db.update(TABLE_CITY, values, COL_ID + " = ?", new String[]{String.valueOf(cityInfoObject.getId())});
     }
 
     public void deleteCity(long id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_CITY, COL_ID + " = ?", new String[] { String.valueOf(id) });
+        db.delete(TABLE_CITY, COL_ID + " = ?", new String[]{String.valueOf(id)});
     }
 
     private String getDateTime() {
