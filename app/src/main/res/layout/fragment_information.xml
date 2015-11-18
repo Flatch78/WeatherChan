@@ -1,0 +1,83 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.guillaumek.weatherchannel.Fragment.InformationFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Informations" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/listViewWarning" />
+
+    <!--<TableLayout-->
+       <!--android:layout_width="wrap_content"-->
+       <!--android:layout_height="wrap_content"-->
+        <!--style="@style/frag1TableLayout" >-->
+        <!--<TableRow-->
+            <!--style="@style/frag1HeaderTableRow">-->
+            <!--<TextView-->
+                <!--style="@style/frag1HeaderCol" android:text="@string/title_uv_index"/>-->
+            <!--<TextView-->
+                <!--style="@style/frag1HeaderCol" android:text="@string/title_risk_index"/>-->
+            <!--<TextView-->
+                <!--style="@style/frag1HeaderCol" android:text="@string/title_recommendation_index"/>-->
+        <!--</TableRow>-->
+
+        <!--<TableRow-->
+            <!--style="@style/frag1TableRow">-->
+            <!--<TextView-->
+                <!--style="@style/frag1Col" android:text="@string/row_green_uv"/>-->
+            <!--<TextView-->
+                <!--style="@style/frag1Col" android:text="@string/row_green_risk"/>-->
+            <!--<TextView-->
+                <!--style="@style/frag1Col" android:text="@string/row_green_recommend"/>-->
+        <!--</TableRow>-->
+
+        <!--<TableRow-->
+            <!--style="@style/frag1TableRow">-->
+            <!--<TextView-->
+                <!--style="@style/frag1Col" android:text="@string/row_yellow_uv"/>-->
+            <!--<TextView-->
+                <!--style="@style/frag1Col" android:text="@string/row_yellow_risk"/>-->
+            <!--<TextView-->
+                <!--style="@style/frag1Col" android:text="@string/row_yellow_recommend"/>-->
+        <!--</TableRow>-->
+
+        <!--<TableRow-->
+            <!--style="@style/frag1TableRow">-->
+            <!--<TextView-->
+                <!--style="@style/frag1Col" android:text="@string/row_orange_uv"/>-->
+            <!--<TextView-->
+                <!--style="@style/frag1Col" android:text="@string/row_orange_risk"/>-->
+            <!--<TextView-->
+                <!--style="@style/frag1Col" android:text="@string/row_orange_recommend"/>-->
+        <!--</TableRow>-->
+
+        <!--<TableRow-->
+            <!--style="@style/frag1TableRow">-->
+            <!--<TextView-->
+                <!--style="@style/frag1Col" android:text="@string/row_red_uv"/>-->
+            <!--<TextView-->
+                <!--style="@style/frag1Col" android:text="@string/row_red_risk"/>-->
+            <!--<TextView-->
+                <!--style="@style/frag1Col" android:text="@string/row_red_recommend"/>-->
+        <!--</TableRow>-->
+
+        <!--<TableRow-->
+            <!--style="@style/frag1TableRow">-->
+            <!--<TextView-->
+                <!--style="@style/frag1Col" android:text="@string/row_purple_uv"/>-->
+            <!--<TextView-->
+                <!--style="@style/frag1Col" android:text="@string/row_purple_risk"/>-->
+            <!--<TextView-->
+                <!--style="@style/frag1Col" android:text="@string/row_purple_recommend"/>-->
+        <!--</TableRow>-->
+
+    <!--</TableLayout>-->
+</LinearLayout>

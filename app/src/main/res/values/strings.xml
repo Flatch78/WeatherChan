@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Weather Channel</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- Pages -->
+    <string name="navigation_main_page">Main</string>
+    <string name="navigation_setting_page">Settings</string>
+    <string name="navigation_information_page">Information</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- Table -->
+    <string name="title_uv_index">UV Index</string>
+    <string name="row_green_uv">0–2.9</string>
+    <string name="row_yellow_uv">3–5.9</string>
+    <string name="row_orange_uv">6–7.9</string>
+    <string name="row_red_uv">8–10.9</string>
+    <string name="row_purple_uv">11+</string>
+
+    <string name="title_risk_index">Risk of harm from unprotected sun exposure,\nfor the average adult</string>
+    <string name="row_green_risk">Low</string>
+    <string name="row_yellow_risk">Moderate</string>
+    <string name="row_orange_risk">High</string>
+    <string name="row_red_risk">Very High</string>
+    <string name="row_purple_risk">Extreme</string>
+
+    <string name="title_recommendation_index">Recommended protection</string>
+    <string name="row_green_recommend">Wear sunglasses on bright days;\nuse sunscreen if there is snow on the ground,\nwhich reflects UV radiation,\nor if you have particularly fair skin.</string>
+    <string name="row_yellow_recommend">Take precautions, such as covering up, if you will be outside.\nStay in shade near midday when the sun is strongest.</string>
+    <string name="row_orange_recommend">Cover the body with sun protective clothing,\nuse SPF 30+ sunscreen, wear a hat,\nreduce time in the sun within three hours of solar noon,\nand wear sunglasses.</string>
+    <string name="row_red_recommend">Wear SPF 30+ sunscreen, a shirt,\nsunglasses, and a wide-brimmed hat.\nDo not stay in the sun for too long.</string>
+    <string name="row_purple_recommend">Take all precautions: Wear SPF 30+ sunscreen,\na long-sleeved shirt and trousers, sunglasses,\nand a very broad hat.\nAvoid the sun within three hours of solar noon.</string>
+
+</resources>

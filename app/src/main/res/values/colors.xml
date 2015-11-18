@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="transparent">#00000000</color>
+    <color name="colorWhiteOpac">#AFF5F5F5</color>
+    <color name="colorGrayOpac">#AF808080</color>
+    <color name="colorPrimaryOpac">#D03F51B5</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryLast">#00008B</color>
+    <color name="colorAccent">#FF4081</color>
+</resources>
