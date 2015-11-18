@@ -28,3 +28,7 @@ proguard/
 
 # Keys file
 app/src/main/res/values/api-keys.xml
+
+# Files test
+app/src/androidTest/
+app/src/test
