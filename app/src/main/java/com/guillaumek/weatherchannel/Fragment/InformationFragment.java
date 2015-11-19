@@ -2,21 +2,32 @@ package com.guillaumek.weatherchannel.Fragment;
 
 
 import android.database.MatrixCursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.guillaumek.weatherchannel.Network.NetworkAPIWeather;
 import com.guillaumek.weatherchannel.R;
+import com.guillaumek.weatherchannel.Tools.MessageTool;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class InformationFragment extends Fragment {
 
+    private static final String TAG = InformationFragment.class.getName();
+    private MessageTool msg = new MessageTool(TAG);
 
     public InformationFragment() {
         // Required empty public constructor
@@ -34,6 +45,30 @@ public class InformationFragment extends Fragment {
         ListView listViewTable = (ListView) view.findViewById(R.id.listViewWarning);
         listViewTable.setAdapter(fillInTable());
 
+        TextView mTextViewLinkWS = (TextView) view.findViewById(R.id.textViewLinkWebSite);
+        mTextViewLinkWS.setMovementMethod(LinkMovementMethod.getInstance());
+
+        final ImageView imageViewLogo = (ImageView) view.findViewById(R.id.logoOpenWeatherMap);
+
+
+        String URLBackground = NetworkAPIWeather.getLogoOpenWeatherMap();
+        Ion.with(getActivity())
+                .load(URLBackground)
+                .asBitmap()
+                .setCallback(new FutureCallback<Bitmap>() {
+                    @Override
+                    public void onCompleted(Exception e, Bitmap result) {
+                        if (e != null) {
+                            msg.MsgError("Error: " + e.getMessage());
+                        } else if (result == null) {
+                            msg.MsgError("Error: request fail");
+                        } else {
+                            BitmapDrawable ob = new BitmapDrawable(getResources(), result);
+                            imageViewLogo.setBackgroundDrawable(ob);
+                        }
+                    }
+
+                });
         return view;
     }
 
@@ -72,11 +107,11 @@ public class InformationFragment extends Fragment {
                 getActivity().getString(R.string.row_red_uv),
                 getActivity().getString(R.string.row_red_risk),
                 getActivity().getString(R.string.row_red_recommend) });
-        matrixCursor.addRow(new Object[] { 3,
+        matrixCursor.addRow(new Object[]{3,
                 R.mipmap.ic_warning_extreme,
                 getActivity().getString(R.string.row_purple_uv),
                 getActivity().getString(R.string.row_purple_risk),
-                getActivity().getString(R.string.row_purple_recommend) });
+                getActivity().getString(R.string.row_purple_recommend)});
 
         String[] from = new String[] {
                 "type",

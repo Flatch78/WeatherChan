@@ -37,6 +37,8 @@ public class NetworkAPIWeather {
     private final static String FOG = "https://c2.staticflickr.com/6/5684/20597103963_57f862461e_z.jpg";
     private final static String FOG_N = "https://c1.staticflickr.com/9/8682/16069627989_a766afefe3_z.jpg";
 
+    private final static String LOGO = "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/OpenWeatherMap_logo.png/128px-OpenWeatherMap_logo.png";
+
 
     /* PUBLIC */
 
@@ -65,6 +67,10 @@ public class NetworkAPIWeather {
     // Icon
     static public String getURLWeatherIcon(String icon) {
         return getPrefixImg() + icon + ".png";
+    }
+
+    static public String getLogoOpenWeatherMap() {
+        return LOGO;
     }
 
     // Pictures
