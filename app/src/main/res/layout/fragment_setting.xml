@@ -250,7 +250,7 @@
                     android:foregroundGravity="center"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@mipmap/ic_wind_blue"
+                    android:src="@mipmap/ic_uv_blue"
                     android:layout_marginStart="15dp"
                     android:layout_toEndOf="@+id/textViewUV" />
 
