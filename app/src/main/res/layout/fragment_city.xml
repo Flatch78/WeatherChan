@@ -33,7 +33,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/WhiteSmoke"
-                    android:text="Citie"
+                    android:text="@string/text_value_name_city"
                     android:textSize="40sp"
                     android:id="@+id/textViewCity" />
 
@@ -46,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/WhiteSmoke"
-                    android:text="Country"
+                    android:text="@string/text_value_name_country"
                     android:id="@+id/textViewCountry" />
             </LinearLayout>
 
@@ -63,14 +63,14 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/WhiteSmoke"
-                android:text="Description"
+                android:text="@string/text_value_description"
                 android:id="@+id/textViewDescription" />
 
             <TextView
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Temperature"
+                android:text="@string/text_value_temperature"
                 android:textSize="65sp"
                 android:textColor="@color/WhiteSmoke"
                 android:id="@+id/textViewTemperature" />
@@ -82,15 +82,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-<!--
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/WhiteSmoke"
-                    android:text="Humidity:"
-                     />
--->
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
@@ -104,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/WhiteSmoke"
-                    android:text="value"
+                    android:text="@string/text_value_empty"
                     android:id="@+id/textViewHumidity" />
             </LinearLayout>
 
@@ -115,14 +106,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
-<!--
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/WhiteSmoke"
-                    android:text="Wind:" />
--->
 
                 <ImageView
                     android:layout_width="30dp"
@@ -137,7 +120,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/WhiteSmoke"
-                    android:text="value"
+                    android:text="@string/text_value_empty"
                     android:id="@+id/textViewWind" />
             </LinearLayout>
 
@@ -148,14 +131,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
-<!--
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/WhiteSmoke"
-                    android:text="Clouds:" />
--->
 
                 <ImageView
                     android:layout_width="30dp"
@@ -170,7 +145,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/WhiteSmoke"
-                    android:text="value"
+                    android:text="@string/text_value_empty"
                     android:id="@+id/textViewClouds" />
             </LinearLayout>
 
@@ -186,12 +161,6 @@
                     android:layout_height="30dp"
                     android:src="@mipmap/ic_pressure_white"/>
 
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
-                    <!--android:textColor="@color/WhiteSmoke"-->
-                    <!--android:text="Pressure:" />-->
 
                 <TextView
                     android:paddingStart="5dp"
@@ -200,7 +169,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/WhiteSmoke"
-                    android:text="value"
+                    android:text="@string/text_value_empty"
                     android:id="@+id/textViewPressure" />
             </LinearLayout>
 
@@ -211,14 +180,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
-<!--
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/WhiteSmoke"
-                    android:text="UV:" />
--->
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
@@ -232,7 +193,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/WhiteSmoke"
-                    android:text="value"
+                    android:text="@string/text_value_empty"
                     android:id="@+id/textViewUV" />
 
                 <ImageView
@@ -249,7 +210,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/WhiteSmoke"
-                android:text="Last Update"
+                android:text="@string/text_value_last_update"
                 android:id="@+id/textViewUpdate" />
         </LinearLayout>
     </ScrollView>

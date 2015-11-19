@@ -11,6 +11,27 @@
 
     <string name="action_settings">Settings</string>
 
+    <!-- Content Pages -->
+    <string name="text_value_empty">Value</string>
+    <string name="text_value_name_city">City name</string>
+    <string name="text_value_name_country">Country name</string>
+    <string name="text_value_latitude">Latitude</string>
+    <string name="text_value_longitude">Longitude</string>
+    <string name="text_value_api_sources">API sources: </string>
+    <string name="text_value_description">Description</string>
+    <string name="text_value_temperature">Temperature</string>
+    <string name="text_value_last_update">Last Update</string>
+    <string name="text_value_graphic">Graphic</string>
+    <string name="text_value_humidity">Humidity</string>
+    <string name="text_value_wind">Wind</string>
+    <string name="text_value_clouds">Clouds</string>
+    <string name="text_value_pressure">Pressure</string>
+    <string name="text_value_uv">UV</string>
+    <string name="text_value_nb_days">Number Days</string>
+    <string name="text_value_nb_days_init">(1)</string>
+
+    <!-- String Format -->
+
     <!-- Table -->
     <string name="title_uv_index">UV Index</string>
     <string name="row_green_uv">0–2.9</string>
