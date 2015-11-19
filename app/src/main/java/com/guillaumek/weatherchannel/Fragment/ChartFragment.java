@@ -122,7 +122,7 @@ public class ChartFragment extends Fragment {
 
     public List<Double> getListTemperature(List<ForecastWeather.FtWeather> ftWeatherList, ContentChart contentChart) {
         List<Double> listTemp = new ArrayList<Double>();
-        for (int i = 0; i < (mNumberDays * 8); ++i) {
+        for (int i = 0; i < ((mNumberDays * 8) <= ftWeatherList.size() ? (mNumberDays * 8) : ftWeatherList.size()); ++i) {
             Double temp = Tools.roundDouble(Tools.getCelsiusValue(ftWeatherList.get(i).main.temp), 2);
             listTemp.add(temp);
             if (temp < contentChart.getMin()) {
@@ -137,7 +137,7 @@ public class ChartFragment extends Fragment {
 
     public List<Double> getListHumidity(List<ForecastWeather.FtWeather> ftWeatherList, ContentChart contentChart) {
         List<Double> listTemp = new ArrayList<Double>();
-        for (int i = 0; i < (mNumberDays * 8); ++i) {
+        for (int i = 0; i < ((mNumberDays * 8) <= ftWeatherList.size() ? (mNumberDays * 8) : ftWeatherList.size()); ++i) {
             Double humid = Tools.roundDouble(ftWeatherList.get(i).main.humidity, 2);
             listTemp.add(humid);
             if (humid < contentChart.getMin()) {
@@ -152,7 +152,7 @@ public class ChartFragment extends Fragment {
 
     public List<Double> getListPressure(List<ForecastWeather.FtWeather> ftWeatherList, ContentChart contentChart) {
         List<Double> listTemp = new ArrayList<Double>();
-        for (int i = 0; i < (mNumberDays * 8); ++i) {
+        for (int i = 0; i < ((mNumberDays * 8) <= ftWeatherList.size() ? (mNumberDays * 8) : ftWeatherList.size()); ++i) {
             Double press = Tools.roundDouble(ftWeatherList.get(i).main.pressure, 2);
             listTemp.add(press);
             if (press < contentChart.getMin()) {
@@ -167,7 +167,7 @@ public class ChartFragment extends Fragment {
 
     public List<Double> getListWindSpeed(List<ForecastWeather.FtWeather> ftWeatherList, ContentChart contentChart) {
         List<Double> listTemp = new ArrayList<Double>();
-        for (int i = 0; i < (mNumberDays * 8); ++i) {
+        for (int i = 0; i < ((mNumberDays * 8) <= ftWeatherList.size() ? (mNumberDays * 8) : ftWeatherList.size()); ++i) {
             Double windSpeed = Tools.roundDouble(ftWeatherList.get(i).wind.speed * 3.6, 2);
             listTemp.add(windSpeed);
             if (windSpeed < contentChart.getMin()) {
@@ -182,7 +182,7 @@ public class ChartFragment extends Fragment {
 
     public List<Double> getListcloud(List<ForecastWeather.FtWeather> ftWeatherList, ContentChart contentChart) {
         List<Double> listTemp = new ArrayList<Double>();
-        for (int i = 0; i < (mNumberDays * 8); ++i) {
+        for (int i = 0; i < ((mNumberDays * 8) <= ftWeatherList.size() ? (mNumberDays * 8) : ftWeatherList.size()); ++i) {
             Double clouds = Tools.roundDouble(ftWeatherList.get(i).clouds.all, 2);
             listTemp.add(clouds);
             if (clouds < contentChart.getMin()) {
