@@ -31,6 +31,34 @@
     <string name="text_value_nb_days_init">(1)</string>
 
     <!-- String Format -->
+    <string name="format_simple_date">yyyy-MM-dd HH:mm:ss</string>
+
+    <!-- Graphic -->
+    <string name="graphic_temperature_title">Temperature graphic</string>
+    <string name="graphic_humidity_title">Humidity graphic</string>
+    <string name="graphic_pressure_title">Pressure graphic</string>
+    <string name="graphic_wind_title">Wind graphic</string>
+    <string name="graphic_cloud_title">Cloud graphic</string>
+    <string name="graphic_temperature_y_title">Temperature</string>
+    <string name="graphic_percentage_y_title">Percentage</string>
+    <string name="graphic_speed_y_title">Speed m/s</string>
+    <string name="graphic_x_title">Hours</string>
+
+    <!-- Dialogs -->
+    <string name="dialog_valid_button">OK</string>
+    <string name="dialog_cancel_button">Cancel</string>
+
+    <!-- GPS -->
+    <string name="dialog_gps_title">GPS is settings</string>
+    <string name="dialog_gps_message">GPS is not enabled. Do you want to go to settings menu?</string>
+    <string name="dialog_gps_setting_button">Settings</string>
+
+    <!-- Add City -->
+    <string name="dialog_add_city_title">Add new city</string>
+    <!-- /Dialogs -->
+
+    <!-- Toast -->
+
 
     <!-- Table -->
     <string name="title_uv_index">UV Index</string>

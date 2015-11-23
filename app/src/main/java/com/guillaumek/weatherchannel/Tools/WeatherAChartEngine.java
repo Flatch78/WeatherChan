@@ -77,7 +77,7 @@ public class WeatherAChartEngine {
             mRenderer.setChartTitle(mTitle);
             mRenderer.setXTitle(mXTitle);
             mRenderer.setYTitle(mYTitle);
-            { // Color
+            { // Colors
                 mRenderer.setLabelsColor(mContext.getResources().getColor(R.color.WhiteSmoke));
                 mRenderer.setXLabelsColor(mContext.getResources().getColor(R.color.WhiteSmoke));
                 mRenderer.setMarginsColor(mContext.getResources().getColor(R.color.colorPrimaryOpac));

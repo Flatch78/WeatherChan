@@ -66,8 +66,8 @@ public class AddCityDialogFragment extends DialogFragment {
         final EditText editTextLon = (EditText)view.findViewById(R.id.editTextLon);
 
         AlertDialog.Builder builder =  new  AlertDialog.Builder(getActivity())
-                .setTitle("Add new city")
-                .setPositiveButton("OK",
+                .setTitle(mMainActivity.getString(R.string.dialog_add_city_title))
+                .setPositiveButton(mMainActivity.getString(R.string.dialog_valid_button),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 String nameCity = editTextNameCity.getText().toString();

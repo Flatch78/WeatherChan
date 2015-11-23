@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.guillaumek.weatherchannel.Network.CurrentWeather;
 import com.guillaumek.weatherchannel.Network.NetworkAPIWeather;
 import com.guillaumek.weatherchannel.Network.Object.CityInfoObject;
+import com.guillaumek.weatherchannel.R;
 import com.guillaumek.weatherchannel.Tools.MessageTool;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -266,7 +267,8 @@ public class SQLiteWeatherChan extends SQLiteOpenHelper {
     }
 
     private String getDateTime() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat(mContext.getString(R.string.format_simple_date),
+                Locale.getDefault());
         Date date = new Date();
         return dateFormat.format(date);
     }

@@ -86,27 +86,32 @@ public class ChartFragment extends Fragment {
             if (mType == GraphEnum.TEMPERATURE) {
                 contentChart = new ContentChart(0, 30);
                 listElements = getListTemperature(mForecastWeather.list, contentChart);
-                weatherAChartEngine = new WeatherAChartEngine(mContext, "Temperature graphic", "Hours", "Temperature");
+                weatherAChartEngine = new WeatherAChartEngine(mContext, mContext.getString(R.string.graphic_temperature_title),
+                        mContext.getString(R.string.graphic_x_title), mContext.getString(R.string.graphic_temperature_y_title));
                 weatherAChartEngine.setLineColor(getResources().getColor(R.color.FireBrick));
             } else if (mType == GraphEnum.HUMIDITY) {
                 contentChart = new ContentChart(50, 110);
                 listElements = getListHumidity(mForecastWeather.list, contentChart);
-                weatherAChartEngine = new WeatherAChartEngine(mContext, "Humidity graphic", "Hours", "Percentage");
+                weatherAChartEngine = new WeatherAChartEngine(mContext, mContext.getString(R.string.graphic_humidity_title),
+                        mContext.getString(R.string.graphic_x_title), mContext.getString(R.string.graphic_percentage_y_title));
                 weatherAChartEngine.setLineColor(getResources().getColor(R.color.colorPrimaryDark));
             } else if (mType == GraphEnum.PRESSURE) {
                 contentChart = new ContentChart(940, 1050);
                 listElements = getListPressure(mForecastWeather.list, contentChart);
-                weatherAChartEngine = new WeatherAChartEngine(mContext, "Pressure graphic", "Hours", "Percentage");
+                weatherAChartEngine = new WeatherAChartEngine(mContext, mContext.getString(R.string.graphic_pressure_title),
+                        mContext.getString(R.string.graphic_x_title), mContext.getString(R.string.graphic_percentage_y_title));
                 weatherAChartEngine.setLineColor(getResources().getColor(R.color.black));
             } else if (mType == GraphEnum.WIND) {
                 contentChart = new ContentChart(0, 150);
                 listElements = getListWindSpeed(mForecastWeather.list, contentChart);
-                weatherAChartEngine = new WeatherAChartEngine(mContext, "Wind graphic", "Hours", "Speed km/h");
+                weatherAChartEngine = new WeatherAChartEngine(mContext, mContext.getString(R.string.graphic_wind_title),
+                        mContext.getString(R.string.graphic_x_title), mContext.getString(R.string.graphic_speed_y_title));
                 weatherAChartEngine.setLineColor(getResources().getColor(R.color.DimGray));
             } else if (mType == GraphEnum.CLOUDS) {
                 contentChart = new ContentChart(0, 100);
                 listElements = getListcloud(mForecastWeather.list, contentChart);
-                weatherAChartEngine = new WeatherAChartEngine(mContext, "Cloud graphic", "Hours", "Percentage");
+                weatherAChartEngine = new WeatherAChartEngine(mContext, mContext.getString(R.string.graphic_cloud_title),
+                        mContext.getString(R.string.graphic_x_title), mContext.getString(R.string.graphic_percentage_y_title));
                 weatherAChartEngine.setLineColor(getResources().getColor(R.color.Ivory));
             }
             if (weatherAChartEngine != null) {
